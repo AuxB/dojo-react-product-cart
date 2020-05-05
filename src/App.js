@@ -32,10 +32,16 @@ class App extends React.Component {
     const name = document.getElementById('addName')
     const price = document.getElementById('addPrice')
     const newProduct = this.state.products
-    const randomId =  Math.floor(Math.random() * Math.floor(999)) 
+    const randomId = Math.floor(Math.random() * Math.floor(999))
     
-    newProduct.push({id: randomId, name: name.value, price: price.value, quantity: 1})
-    this.setState({products: newProduct})
+    if (name.value !== "" && price.value !== "") {
+      console.log(name)
+      newProduct.push({ id: randomId, name: name.value, price: price.value, quantity: 1 })
+      this.setState({ products: newProduct })
+    }
+
+
+
     console.log(newProduct)
     event.preventDefault();
   }
@@ -79,11 +85,11 @@ class App extends React.Component {
           <div className="field">
             <div>
               <label htmlFor="name">Nom</label>
-              <input type="text" id="addName" name="name" required/>
+              <input type="text" id="addName" name="name" required />
             </div>
             <div>
               <label htmlFor="price">Prix</label>
-              <input type="number" id="addPrice" name="price" required/>
+              <input type="number" id="addPrice" name="price" required />
             </div>
             <button onClick={this.onAdd}>Ajouter</button>
           </div>
