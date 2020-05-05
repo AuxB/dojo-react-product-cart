@@ -18,7 +18,19 @@
 }
 
 .App form .field {
-  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: auto;
+}
+
+.App .field > div {
+  margin: 5px
+}
+
+.App form button {
+ width: 100px;
+ margin: auto;
 }
 
 .App form .field input {
@@ -33,4 +45,3 @@
 .App form h2 {
   text-align: center
 }
-

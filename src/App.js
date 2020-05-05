@@ -9,29 +9,40 @@ const initialProductList = [
 const reducer = (accumulator, currentValue) => accumulator + currentValue
 class App extends React.Component {
   state = {
-    products: initialProductList,
-    total: []
+    products: initialProductList
   }
 
-  handleChange = e => {
-    const id = e.target.id - 1 // On soustrait pour être raccord avec l'id du initial Product
-    const products = this.state.products
+  handleChange = (e) => {
+    const newProducts = this.state.products
+    const productToChange = newProducts.findIndex(elt => elt.name === e.target.name)
+    console.log(e.target.value)
     if (parseInt(e.target.value) === 0) {
       if (window.confirm("Etes vous sûr de bien vouloir retirer ce produit de la liste ?")) {
-        delete products[id]
+        newProducts.splice(productToChange, 1)
       }
     }
     else {
-      products[id].quantity = e.target.value
+      newProducts[productToChange].quantity = e.target.value
 
     }
-    this.setState({ products: products })
+    this.setState({ products: newProducts })
+  }
+
+  onAdd = (event) => {
+    const name = document.getElementById('addName')
+    const price = document.getElementById('addPrice')
+    const newProduct = this.state.products
+    const randomId =  Math.floor(Math.random() * Math.floor(999)) 
+    
+    newProduct.push({id: randomId, name: name.value, price: price.value, quantity: 1})
+    this.setState({products: newProduct})
+    console.log(newProduct)
+    event.preventDefault();
   }
 
   render() {
     const totalPrice = []
     const { products } = this.state
-    console.log(products)
     return (
       <div className='App'>
         <h1>Ma commande</h1>
@@ -51,6 +62,7 @@ class App extends React.Component {
                 <td>{elt.price + '€'}</td>
                 <td>
                   <input id={elt.id}
+                    name={elt.name}
                     type="number"
                     onChange={this.handleChange}
                     value={elt.quantity} />
@@ -61,14 +73,19 @@ class App extends React.Component {
           })
           }
         </table>
-        <p>Montant de la commande : <strong>{totalPrice.reduce(reducer)}</strong> €</p>
+        <p>Montant de la commande : <strong>{totalPrice.length === 0 ? "" : totalPrice.reduce(reducer)}</strong> €</p>
         <form>
           <h2>Ajouter un produit</h2>
           <div className="field">
-            <label for="name">Nom</label>
-            <input type="text" name="name" />
-            <label for="price">Prix</label>
-            <input type="number" name="price" />
+            <div>
+              <label htmlFor="name">Nom</label>
+              <input type="text" id="addName" name="name" required/>
+            </div>
+            <div>
+              <label htmlFor="price">Prix</label>
+              <input type="number" id="addPrice" name="price" required/>
+            </div>
+            <button onClick={this.onAdd}>Ajouter</button>
           </div>
         </form>
       </div>
