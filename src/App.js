@@ -7,6 +7,7 @@ const initialProductList = [
   { id: 3, name: 'produit 3', price: 20, quantity: 5 }];
 
 const reducer = (accumulator, currentValue) => accumulator + currentValue
+
 class App extends React.Component {
   state = {
     products: initialProductList
@@ -35,20 +36,20 @@ class App extends React.Component {
     const randomId = Math.floor(Math.random() * Math.floor(999))
     
     if (name.value !== "" && price.value !== "") {
-      console.log(name)
       newProduct.push({ id: randomId, name: name.value, price: price.value, quantity: 1 })
       this.setState({ products: newProduct })
     }
 
+    name.value = ""
+    price.value = ""
 
-
-    console.log(newProduct)
     event.preventDefault();
   }
 
   render() {
     const totalPrice = []
     const { products } = this.state
+    
     return (
       <div className='App'>
         <h1>Ma commande</h1>
